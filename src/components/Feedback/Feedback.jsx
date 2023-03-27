@@ -1,32 +1,24 @@
-import { Component } from 'react';
-import { FeedbackButtons, FeedbackBut } from './Feedback.styled';
+import { FeedbackBut } from './Feedback.styled';
 import PropTypes from 'prop-types';
+import { nanoid } from 'nanoid';
 
-class Feedback extends Component {
-  static defaultProps = {
-    options: [],
-  };
-  static propTypes = {
-    options: PropTypes.array.isRequired,
-    onLeaveFeedback: PropTypes.func.isRequired,
-  };
-
-  render() {
+export const Feedback = ({ options, onLeaveFeedback }) => {
+  return options.map(option => {
     return (
-      <FeedbackButtons>
-        {this.props.options.map(btn => (
-          <FeedbackBut
-            value={btn}
-            key={btn}
-            type="button"
-            onClick={e => this.props.onLeaveFeedback(e)}
-          >
-            {btn}
-          </FeedbackBut>
-        ))}
-      </FeedbackButtons>
+      <FeedbackBut
+        key={nanoid()}
+        onClick={() => {
+          onLeaveFeedback(option);
+        }}
+        type="button"
+      >
+        {option}
+      </FeedbackBut>
     );
-  }
-}
+  });
+};
 
-export default Feedback;
+Feedback.propTypes = {
+  options: PropTypes.array.isRequired,
+  onLeaveFeedback: PropTypes.func.isRequired,
+};
